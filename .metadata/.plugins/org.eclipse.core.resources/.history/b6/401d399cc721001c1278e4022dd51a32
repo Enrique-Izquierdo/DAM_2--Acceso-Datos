@@ -1,0 +1,208 @@
+package es.florida.ad;
+
+import java.io.File;
+import java.io.FilterOutputStream;
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.DirectoryStream.Filter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.security.Identity;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.Scanner;
+
+import javax.print.attribute.standard.PrinterInfo;
+
+public class AE01_T1_1_Fitxers {
+	
+	/**
+	 * 
+	 * @param rutaRelativaFitxer
+	 */
+
+	public static void getInformacio(String rutaRelativaFitxer) {		
+		try {
+			File fitxer = new File(rutaRelativaFitxer);	
+			try {			
+				System.out.println("Nom: " + fitxer.getName());
+				System.out.println("Ubicació absoluta: " + fitxer.getAbsolutePath());
+				//Cálculo fecha última modificación
+				long ultimaModificacion = fitxer.lastModified(); //Fecha en milisegundos contados desde 01/01/1970.
+				Date fechaUltimaModif = new Date(ultimaModificacion); //Fecha en formato yyyy--MM-dd.
+				String patron = "yyyy-MM-dd HH:mm"; //Con SimpleDateFormat, creamos objeto conversor de formatos Date.
+				SimpleDateFormat formatoFechaPersonalizado = new SimpleDateFormat(patron);			
+				System.out.println("Última modificació (format data): " + formatoFechaPersonalizado.format(fechaUltimaModif));
+				
+				System.out.println("Ocult: " + fitxer.isHidden());			
+				if (fitxer.isFile()) {
+					System.out.println("Tipo: arxiu");
+					System.out.println("Grandaria (bytes): " + fitxer.length());
+				} else if (fitxer.isDirectory()) {
+					System.out.println("Tipos: directori");
+					System.out.println("Nombre d´elements: " + fitxer.list().length);
+					System.out.println("Espai lliure (GB): " + fitxer.getFreeSpace()/1e9);
+					System.out.println("Espai ocupat (GB): " + (fitxer.getTotalSpace() - fitxer.getFreeSpace())/1e9);
+					System.out.println("Espai total (GB): " + fitxer.getTotalSpace()/1e9);
+				} else {
+					System.out.println("El fitxer no existeix o, no ha ingressat la ruta relativa del fitxer.");
+				}
+			} catch (SecurityException e) {
+				if(fitxer.canRead()) {
+					System.out.println("No té permís d'execució.");
+					e.printStackTrace();
+				} else {
+					System.out.println("No té permís de lectura.");
+					e.printStackTrace();
+				}			
+			} catch (Exception e) {
+				System.out.println("S'ha produït un error durant l'execució.");
+				e.printStackTrace();
+			}
+		} catch (NullPointerException e) {			
+			System.out.println("Error de programació. Una de les variables no té assignat cap objecte.");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void creaCarpeta(Scanner pEntradaTeclado) {
+		System.out.println("\nHa seleccionat: opció 2");				
+		System.out.print("Introduïsca el nom de la carpeta a crear: ");
+		String nomCarpeta = pEntradaTeclado.next();	
+		try {
+			File carpeta = new File(nomCarpeta);
+			if(carpeta.mkdir()) {
+				System.out.println("La carpeta ha sigut creada.");
+			} else {
+				System.out.println("La carpeta NO ha sigut creada. No té permís d'escriptura.");
+			}
+		} catch (SecurityException e) {
+			System.out.println("No té permís d'escriptura.");
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Error de programació. Una de les variables no té assignat cap objecte.");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void creaFitxer(Scanner pEntradaTeclado) {
+		System.out.println("\nHa seleccionat: opció 3");
+		System.out.print("Introduïsca el nom del fitxer (arxiu) a crear: ");
+		String nomFitxer = pEntradaTeclado.next();
+		try {
+			File fitxer = new File(nomFitxer);
+			if (fitxer.createNewFile()) {
+				System.out.println("El fitxer (arxiu) ha sigut creat.");
+			} else {
+				System.out.println("El fitxer (arxiu) NO ha sigut creat, perquè ja existeix.");
+			}
+		} catch (NullPointerException e) {
+			System.out.println("Error de programació. Una de les variables no té assignat cap objecte.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("S'ha produït un error durant les operacions d'entrada/eixida de dades.");
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			System.out.println("No té permís d'escriptura.");
+			e.printStackTrace();
+		}
+	}
+	
+	public static void elimina(Scanner pEntradaTeclado) {
+		System.out.println("\nHa seleccionat: opció 4");
+		System.out.print("Introduïsca el nom del fitxer a eliminar: ");
+		String nomFitxer = pEntradaTeclado.next();
+		try {
+			File fitxer = new File(nomFitxer);
+			if (fitxer.delete()) {
+				System.out.println("El fitxer ha sigut eliminat.");
+			} else {
+				System.out.println("El fitxer NO ha sigut eliminat. "
+						+ "El fitxer indicat no existeix, o es tracta d'un directori que conté fitxers.");
+			}
+		} catch (SecurityException e) {
+			System.out.println("No té permisos d'escriptura.");
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Error de programació. Una de les variables no té assignat cap objecte.");
+			e.printStackTrace();
+		} 		
+	}
+	
+	public static void renomena(Scanner pEntradaTeclado) {
+		System.out.println("\nHa seleccionat: opció 5");
+		System.out.print("Introduïsca el nom del fitxer a canviar de nom: ");
+		String nomFitxer = pEntradaTeclado.next();
+		System.out.print("Introduïsca el nou nom: ");
+		String nouNomFitxer = pEntradaTeclado.next();
+		try {
+			File fitxer = new File(nomFitxer);
+			File nouFitxer = new File(nouNomFitxer);
+			if(fitxer.renameTo(nouFitxer)) {
+				System.out.println("El fitxer ha sigut renomenat.");
+			} else {
+				System.out.println("El fitxer NO ha sigut renomenat."
+						+ " Comprove que la ruta relativa introduïda, és correcta.");
+			}
+		} catch (SecurityException e) {
+			System.out.println("No té permisos d'escriptura.");
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			System.out.println("Error de programació. Una de les variables no té assignat cap objecte.");
+			e.printStackTrace();
+		} 
+	}
+	
+	
+	public static void main(String[] args) {						
+		Scanner entradaTeclado = new Scanner(System.in);
+		Boolean continuar = true;
+		do {
+			System.out.println("Actividades Evaluables 1 - Enrique Izquierdo Jiménez\n"
+					+ "===================================================="
+					+ "\n---OPCIONES DISPONIBLES----\n1 - Veure informació fitxer\n"
+					+ "2 - Crear carpeta\n3 - Crear fitxer\n4 - Elimina\n5 - Renomena\n6 - EIXIR");		
+			System.out.print("Seleccione una opció (del 1 al 6): ");
+			String opcion = entradaTeclado.next();
+			
+			switch (opcion) {
+			case "1":
+				System.out.println("\nHa seleccionat: opció 1");
+				getInformacio(args[0]);
+				break;
+			case "2":					
+				creaCarpeta(entradaTeclado);
+				break;
+			case "3":
+				creaFitxer(entradaTeclado);
+				break;
+			case "4":
+				elimina(entradaTeclado);
+				break;
+			case "5":
+				renomena(entradaTeclado);
+				break;
+			case "6":
+				continuar = false;
+				break;
+			default:
+				System.out.println("\nOpció seleccionada, no disponible.");
+				break;
+			}
+			
+			if(continuar) {			
+				System.out.println("\nPressione ENTER per a continuar.");
+				try{
+					System.in.read();
+					}
+				catch(IOException e){
+					System.out.println("S'ha produït un error durant l'entrada o eixida de dades.");
+					e.printStackTrace();
+				}
+			} else {
+				System.out.println("\nHa eixit de l'aplicació.");
+			}			
+		} while (continuar);		
+		entradaTeclado.close();
+	}
+}
