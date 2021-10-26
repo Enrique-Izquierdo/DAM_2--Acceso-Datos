@@ -1,0 +1,4 @@
+INDEX VERSION 1.131+C:\Users\enriq\Eclipse_espacioS_trabajo\Acceso_Datos\AD_AEvaluables\ews-ad_AE2_T1.2_EnriqueIzquierdo\.metadata\.plugins\org.eclipse.jdt.core
+1210658807.index
+1865797976.index
+83532632.index
