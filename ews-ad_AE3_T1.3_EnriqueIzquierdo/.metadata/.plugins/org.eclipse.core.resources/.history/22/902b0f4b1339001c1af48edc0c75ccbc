@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Pepe</titol>
+        <autor>Ratón Azul</autor>
+        <anyPublicacio>324</anyPublicacio>
+        <editorial/>
+        <nombrePagines>ga</nombrePagines>
+    </llibre>
+</llibres>

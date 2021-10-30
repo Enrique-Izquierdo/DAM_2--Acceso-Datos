@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Penelope</titol>
+        <autor>fdfaÇój</autor>
+        <anyPublicacio>3242</anyPublicacio>
+        <editorial>etí-ë </editorial>
+        <nombrePagines>432</nombrePagines>
+    </llibre>
+    <llibre identificador="3">
+        <titol>Los minutos</titol>
+        <autor>Algarrobo</autor>
+        <anyPublicacio>4324</anyPublicacio>
+        <editorial>Pipas</editorial>
+        <nombrePagines>435</nombrePagines>
+    </llibre>
+    <llibre identificador="4">
+        <titol>Las montañas</titol>
+        <autor>Jorge Guzmán</autor>
+        <anyPublicacio>456</anyPublicacio>
+        <editorial>Çaça</editorial>
+        <nombrePagines>435</nombrePagines>
+    </llibre>
+    <llibre identificador="5">
+        <titol>ferf</titol>
+        <autor>gasg</autor>
+        <anyPublicacio>rewr</anyPublicacio>
+        <editorial>vdsaf</editorial>
+        <nombrePagines/>
+    </llibre>
+</llibres>

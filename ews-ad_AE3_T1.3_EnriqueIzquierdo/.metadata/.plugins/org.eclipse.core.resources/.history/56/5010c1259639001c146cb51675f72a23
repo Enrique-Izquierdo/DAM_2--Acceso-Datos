@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Pereíra</titol>
+        <autor>Güimaraçe</autor>
+        <anyPublicacio>324</anyPublicacio>
+        <editorial>Español</editorial>
+        <nombrePagines>4532</nombrePagines>
+    </llibre>
+    <llibre identificador="2">
+        <titol>Pozuño</titol>
+        <autor>M€lisanÇo</autor>
+        <anyPublicacio>r325</anyPublicacio>
+        <editorial>^´af{</editorial>
+        <nombrePagines>fsda</nombrePagines>
+    </llibre>
+</llibres>

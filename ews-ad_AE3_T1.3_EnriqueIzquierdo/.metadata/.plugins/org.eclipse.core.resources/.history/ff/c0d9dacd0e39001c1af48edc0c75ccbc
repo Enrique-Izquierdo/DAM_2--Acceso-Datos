@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<cancons>
+    <canco id="1">
+        <titol>Un beso y una flor</titol>
+        <artista>Nino Bravo</artista>
+        <any>1972</any>
+        <format>MP3</format>
+    </canco>
+    <canco id="2">
+        <titol>Highway to hell</titol>
+        <artista>ACDC</artista>
+        <any>1974</any>
+        <format>ISO</format>
+    </canco>
+    <canco id="3">
+        <titol>Losing my religion</titol>
+        <artista>R.E.M.</artista>
+        <any>1991</any>
+        <format>WAV</format>
+    </canco>
+    <canco id="4">
+        <titol>fadsf</titol>
+        <artista>fdsa fasd</artista>
+        <any>342rf</any>
+        <format>cads</format>
+    </canco>
+    <canco id="5">
+        <titol>4324</titol>
+        <artista>432 fdg</artista>
+        <any>4324</any>
+        <format>fasdf</format>
+    </canco>
+</cancons>

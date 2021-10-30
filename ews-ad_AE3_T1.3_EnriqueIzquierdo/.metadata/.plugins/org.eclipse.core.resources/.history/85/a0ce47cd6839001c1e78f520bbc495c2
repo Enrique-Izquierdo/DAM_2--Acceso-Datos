@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>MarÃ&#131;&#131;&#131;&#131;&#131;&#131;Ã&#131;&#131;&#131;&#131;&#130;Ã&#131;&#131;&#131;&#130;Ã&#131;&#131;&#130;Ã&#131;&#130;Ã&#130;Â­a CastaÃ&#131;&#131;&#131;&#131;&#131;&#131;Ã&#131;&#131;&#131;&#131;&#130;Ã&#131;&#131;&#131;&#130;Ã&#131;&#131;&#130;Ã&#131;&#130;Ã&#130;Â±o</titol>
+        <autor>RomenÃ&#131;&#131;&#131;&#131;&#131;&#131;Ã&#131;&#131;&#131;&#131;&#130;Ã&#131;&#131;&#131;&#130;Ã&#131;&#131;&#130;Ã&#131;&#130;Ã&#130;Â§a</autor>
+        <anyPublicacio>34512</anyPublicacio>
+        <editorial>PlatÃ&#131;&#131;&#131;&#131;&#131;&#131;Ã&#131;&#131;&#131;&#131;&#130;Ã&#131;&#131;&#131;&#130;Ã&#131;&#131;&#130;Ã&#131;&#130;Ã&#130;Â³n</editorial>
+        <nombrePagines>3324</nombrePagines>
+    </llibre>
+    <llibre identificador="4">
+        <titol>gdfsgd</titol>
+        <autor>gdsgdf</autor>
+        <anyPublicacio>sdgfdg</anyPublicacio>
+        <editorial>gsdgf</editorial>
+        <nombrePagines>gsgsdg</nombrePagines>
+    </llibre>
+</llibres>

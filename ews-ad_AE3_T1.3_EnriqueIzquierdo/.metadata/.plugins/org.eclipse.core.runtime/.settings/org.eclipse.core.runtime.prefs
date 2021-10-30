@@ -1,0 +1,11 @@
+content-types/org.eclipse.core.runtime.text/charset=UTF-8
+content-types/org.eclipse.core.runtime.xml/charset=UTF-8
+content-types/org.eclipse.jdt.core.JARManifest/charset=UTF-8
+content-types/org.eclipse.jdt.core.javaProperties/charset=UTF-8
+content-types/org.eclipse.ltk.core.refactoring.refactoringHistory/charset=UTF-8
+content-types/org.eclipse.ltk.core.refactoring.refactoringIndex/charset=UTF-8
+content-types/org.eclipse.m2e.core.pomFile/charset=UTF-8
+content-types/org.eclipse.wst.xml.core.xmlsource/charset=UTF-8
+content-types/org.eclipse.wst.xml.core.xslsource/charset=UTF-8
+content-types/org.eclipse.wst.xsd.core.xsdsource/charset=UTF-8
+eclipse.preferences.version=1

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Peçe</titol>
+        <autor>Tomás</autor>
+        <anyPublicacio>1246</anyPublicacio>
+        <editorial>fasfnd</editorial>
+        <nombrePagines>4315</nombrePagines>
+    </llibre>
+</llibres>

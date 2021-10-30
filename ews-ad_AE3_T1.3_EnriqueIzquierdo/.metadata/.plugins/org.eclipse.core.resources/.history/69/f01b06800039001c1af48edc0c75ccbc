@@ -1,0 +1,478 @@
+package ad.AE.T1ae3;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import com.sun.source.tree.IfTree;
+
+public class AE3_T1_3 {
+
+	//atributos
+	//constructores
+	//getters y setters
+	//otros métodos de interface
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+//		int idCanco = 0;
+		Scanner entradaTeclat = new Scanner(System.in);
+	//	InputStreamReader cr_entradaTeclat = new InputStreamReader(System.in);
+	//	BufferedReader br_EntradaTeclat = new BufferedReader(cr_entradaTeclat);
+		Boolean continuar = true;			
+		do {
+			System.out.println("\nOpcions Disponibles a la Biblioteca\n"
+					+ "===================================");
+			System.out.println("1. Mostrar tots els títols de la biblioteca.\n"
+					+ "2. Mostrar informació detallada d´un llibre.\n"
+					+ "3. Crear nou llibre.\n"
+					+ "4. Actualitzar llibre.\n"
+					+ "5. Borrar llibre.\n"
+					+ "6. Tanca la biblioteca.");
+			System.out.print("Introduïsca el número de l'opció seleccionada: ");
+			// resposta = entradaTeclat.nextLine();
+			
+
+			switch (entradaTeclat.nextInt()) {
+			case 1:
+				System.out.println("\nHa seleccionat: 1.Mostrar tots els títols de la biblioteca.");
+				if (recuperarTots().size()<1) {
+					System.out.println("No hi ha registrat cap llibre a la biblioteca.");
+				} else {
+					System.out.println("Identificador\t-->\tTítol");
+					for (Llibre llibre : recuperarTots()) {
+						System.out.println("\t"+llibre.getIdentificador()+"\t-->\t"+llibre.getTitol());
+					}
+				}				
+				break;
+			case 2:
+				System.out.print("\nHa seleccionat: 2.Mostrar informació detallada d´un llibre."
+						+ "\nIntroduïsca el número identificador del llibre:");			
+				mostrarLlibre(recuperarLlibre(entradaTeclat.nextInt()));
+				break;
+			case 3:
+				System.out.println("\nHa seleccionat: 3.Crear nou llibre.\n"
+						+ "Introdueix les dades del llibre:");
+				entradaTeclat.nextLine();
+				System.out.print("\t- Títol: ");
+				String titol = entradaTeclat.nextLine();
+				System.out.print("\t- Autor: ");
+				String autor = entradaTeclat.nextLine();
+				System.out.print("\t- Any de Publicació: ");
+				String anyPublicacio = entradaTeclat.nextLine();
+				System.out.print("\t- Editorial: ");
+				String editorial = entradaTeclat.nextLine();
+				System.out.print("\t- Nombre de Pàgines: ");
+				String nombrePagines = entradaTeclat.nextLine();				
+				int id = Biblioteca.getColeccioLlibres().size()+1;
+				String identificador = ((Integer)id).toString();
+				
+				Llibre llibre = new Llibre(identificador, titol, autor, anyPublicacio, editorial, nombrePagines);
+				crearLlibre(llibre);
+//				idCanco++;
+//				anyadirCanco(entradaTeclat, llistaCancons, idCanco);
+//				guardarEnArchiuXML(llistaCancons);
+				break;
+			case 4:
+				System.out.print("\nHa seleccionat: 4.Actualitzar llibre."
+						+ "\nIntroduïsca l'identificador del llibre a actualitzar:");
+				//actualitzarLlibre(identificador);
+				break;
+			case 5:
+				System.out.print("\nHa seleccionat: 5.Borrar llibre."
+						+ "\nIntroduïsca el número identificador del llibre:");			
+				borrarLlibre(entradaTeclat.nextInt());
+				break;
+			case 6:
+				System.out.println("\nHa seleccionat: 6.Tanca la biblioteca.");
+				continuar=false;
+				break;
+			default:
+				System.out.println("\nL'opció seleccionada no és valguda.");
+				break;
+			}
+
+		} while (continuar);
+		entradaTeclat.close();
+		
+		
+		
+//		ArrayList<Canco> llistaCancons = new ArrayList<>();
+//		int idCanco = 0;
+//					
+//		try {
+//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//			Document doc = dBuilder.parse(new File("Ejerc_17.xml"));			
+//			Element raiz = doc.getDocumentElement();
+//			//System.out.println(raiz);
+//			System.out.println("Contingut del node arrel (XML) "+raiz.getNodeName()+": ");
+//			NodeList llistaNodes = doc.getElementsByTagName("canco");			
+//			for (int i = 0; i<llistaNodes.getLength(); i++) {
+//				Node node = llistaNodes.item(i);				
+//				if(node.getNodeType() == Node.ELEMENT_NODE) { //La condició verifica que 
+//					//el objeto asignado a node es un node. Evita problemas amb xml mal estructurats.
+//					Element eElement = (Element)node;
+//					String id = eElement.getAttribute("id");
+//					String titol = eElement.getElementsByTagName("titol").item(0).getTextContent();
+//					String artista = eElement.getElementsByTagName("artista").item(0).getTextContent();
+//					String any = eElement.getElementsByTagName("any").item(0).getTextContent();
+//					String format = eElement.getElementsByTagName("format").item(0).getTextContent();					
+//					llistaCancons.add(new Canco(id, titol, artista, any, format));
+//					idCanco = Integer.parseInt(id);
+//				}				
+//			}			
+//		} catch (ParserConfigurationException | SAXException | IOException e) {
+//				// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//				
+//		Scanner entradaTeclat = new Scanner(System.in);
+////		InputStreamReader cr_entradaTeclat = new InputStreamReader(System.in);
+////		BufferedReader br_EntradaTeclat = new BufferedReader(cr_entradaTeclat);
+//		Boolean continuar = true;			
+//		do {
+//			System.out.println("");
+//			System.out.print("Desitja introduir una cançó a la llista? (S/N): ");
+//			String resposta = entradaTeclat.nextLine().toUpperCase();
+//			if(resposta.equals("S")) {
+//				idCanco++;
+//				anyadirCanco(entradaTeclat, llistaCancons, idCanco);
+//			} else if (resposta.equals("N")) {
+//				continuar = false;
+//			} else {
+//				System.out.println("El caràcter introduït no és valgut.");
+//			}
+//		} while (continuar);
+//		entradaTeclat.close();
+//				
+//		for (Canco canco : llistaCancons) {
+//			System.out.println("");
+//			System.out.println("ID canco: "+canco.id);
+//			System.out.println("Titol: "+canco.titol);
+//			System.out.println("Artista: "+canco.artista);
+//			System.out.println("Any: "+canco.any);
+//			System.out.println("Format: "+canco.format);
+//		}
+//		
+//		guardarEnArchiuXML(llistaCancons);
+	}
+	
+	
+	public static class Biblioteca{
+		//atributes
+		private static ArrayList<Llibre> coleccioLlibres= new ArrayList<>();
+		
+		//constructor
+		public Biblioteca() {}
+		
+		//getters y setters
+		public static ArrayList<Llibre> getColeccioLlibres(){
+			return coleccioLlibres;
+		}
+		
+		public static void setColeccioLlibres(ArrayList<Llibre> pColeccioLlibre) {
+			coleccioLlibres = pColeccioLlibre;			
+		}
+		
+	}
+	
+	
+	//métodos de implementación
+	private static int crearLlibre(Llibre llibre) {
+		Biblioteca.getColeccioLlibres().add(llibre);
+		int id = Biblioteca.getColeccioLlibres().size();
+		//Creamos la estructura del documento (DOM) en memoria.
+		try {
+			DocumentBuilderFactory docBF = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docB = docBF.newDocumentBuilder();
+			Document doc = docB.newDocument();
+			
+			Element raiz = doc.createElement("llibres");
+			doc.appendChild(raiz);
+			
+			for (Llibre book : Biblioteca.getColeccioLlibres()) {
+				Element eLlibre = doc.createElement("llibre");				
+				String identificador = String.valueOf(book.getIdentificador());
+				eLlibre.setAttribute("identificador", identificador);
+				raiz.appendChild(eLlibre);
+				
+				Element eTitol = doc.createElement("titol");
+				eTitol.appendChild(doc.createTextNode(String.valueOf(book.getTitol())));
+				eLlibre.appendChild(eTitol);
+				
+				Element eAutor = doc.createElement("autor");
+				eAutor.appendChild(doc.createTextNode(String.valueOf(book.getAutor())));
+				eLlibre.appendChild(eAutor);
+				
+				Element eAnyPublicacio = doc.createElement("anyPublicacio");
+				eAnyPublicacio.appendChild(doc.createTextNode(String.valueOf(book.getAnyPublicacio())));
+				eLlibre.appendChild(eAnyPublicacio);
+				
+				Element eEditorial = doc.createElement("editorial");
+				eEditorial.appendChild(doc.createTextNode(String.valueOf(book.getEditorial())));
+				eLlibre.appendChild(eEditorial);
+				
+				Element eNombrePagines = doc.createElement("nombrePagines");
+				eNombrePagines.appendChild(doc.createTextNode(String.valueOf(book.getNombrePagines())));
+				eLlibre.appendChild(eNombrePagines);
+			}
+			
+			//Crear serializador			
+			TransformerFactory tranFactory = TransformerFactory.newInstance();
+			Transformer aTransformer = tranFactory.newTransformer();
+			
+			//Darle foramto al documento
+			aTransformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+			aTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+			aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			
+			DOMSource source = new DOMSource(doc);
+			
+			//Definir el nombre del fichero y guardar
+			
+			FileWriter fw;
+			try {
+				fw = new FileWriter("biblioteca.xml");
+				StreamResult result = new StreamResult(fw);
+				aTransformer.transform(source, result);
+				fw.close();
+			} catch (IOException | TransformerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+		} catch (ParserConfigurationException | TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}					
+		return	id;
+	}
+	
+	
+	private static Llibre recuperarLlibre(int identificador) {
+		Llibre llibre;		
+		if(Biblioteca.getColeccioLlibres().size()<identificador) {
+			llibre = null;
+		} else {
+			llibre = Biblioteca.getColeccioLlibres().get(identificador-1);
+		}					
+		return llibre;
+	}
+	
+	private static void mostrarLlibre(Llibre llibre) {
+		if (llibre == null) {
+			System.out.println("No existeix cap llibre amb l'identificador indicat.");
+		} else {
+			System.out.println("\tIdentificador: "+llibre.getIdentificador()+"\n\tTítol: "+llibre.getTitol()+
+					"\n\tAutor: "+llibre.getAutor()+"\n\tAny de publició: "+llibre.getAnyPublicacio()+
+					"\n\tEditorial: "+llibre.getEditorial()+"\n\tNombre de pàgines: "+llibre.getNombrePagines());			
+		}
+	}
+	
+	private static void borrarLlibre(int identificador) {
+		if(Biblioteca.getColeccioLlibres().size()<identificador) {
+			System.out.println("No existeix cap llibre amb l'identificador indicat.");
+		} else {
+			Biblioteca.getColeccioLlibres().remove(identificador-1);
+			System.out.println("El llibre amb l'identificador "+ identificador +" ha sigut esborrat.");
+		}	
+	}
+	
+	private static void actualitzarLlibre(int identificador) {
+		if(Biblioteca.getColeccioLlibres().size()<identificador) {
+			System.out.println("No existeix cap llibre amb l'identificador indicat.");
+		} else {			
+			Scanner imputTeclat = new Scanner(System.in);
+			System.out.println("Introduïsca la resta de dades:");
+			imputTeclat.nextLine();
+			System.out.print("\t- Títol: ");
+			String titol = imputTeclat.nextLine();
+			System.out.print("\t- Autor: ");
+			String autor = imputTeclat.nextLine();
+			System.out.print("\t- Any de Publicació: ");
+			String anyPublicacio = imputTeclat.nextLine();
+			System.out.print("\t- Editorial: ");
+			String editorial = imputTeclat.nextLine();
+			System.out.print("\t- Nombre de Pàgines: ");
+			String nombrePagines = imputTeclat.nextLine();
+			imputTeclat.close();
+			
+			String id = ((Integer)identificador).toString();
+			Llibre llibre = new Llibre(id, titol, autor, anyPublicacio, editorial, nombrePagines);
+			ArrayList<Llibre> collecioActualitzada =  Biblioteca.getColeccioLlibres();
+			collecioActualitzada.add(identificador-1, llibre);
+		    Biblioteca.setColeccioLlibres(collecioActualitzada);
+			System.out.println("El llibre amb l'identificador "+ identificador +" ha sigut actualitzat.");
+		}	
+		
+	}
+	
+	private static ArrayList<Llibre> recuperarTots() {
+		ArrayList<Llibre> coleccioLlibres = new ArrayList<Llibre>();		
+		File archiu = new File ("biblioteca.xml");
+		if (archiu.exists()) {			
+			try {
+				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+				Document doc = dBuilder.parse(archiu);
+				//Element raiz = doc.getDocumentElement();
+				NodeList llistaNodes = doc.getElementsByTagName("llibre");			
+				for (int i = 0; i<llistaNodes.getLength(); i++) {
+					Node node = llistaNodes.item(i);				
+					if(node.getNodeType() == Node.ELEMENT_NODE) { //La condició verifica que 
+						//el objeto asignado a node es un node. Evita problemas amb xml mal estructurats.
+						Element eElement = (Element)node;
+						String identificador = eElement.getAttribute("identificador");
+						String titol = eElement.getElementsByTagName("titol").item(0).getTextContent();
+						String autor = eElement.getElementsByTagName("autor").item(0).getTextContent();
+						String anyPublicacio = eElement.getElementsByTagName("anyPublicacio").item(0).getTextContent();
+						String editorial = eElement.getElementsByTagName("editorial").item(0).getTextContent();
+						String nombrePagines = eElement.getElementsByTagName("nombrePagines").item(0).getTextContent();					
+						coleccioLlibres.add(new Llibre(identificador, titol, autor, anyPublicacio, editorial, nombrePagines));
+						//idLlibre = Integer.parseInt(id);
+					}				
+				}	
+				Biblioteca.setColeccioLlibres(coleccioLlibres);
+			} catch (ParserConfigurationException | SAXException | IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}					
+		}
+		return Biblioteca.getColeccioLlibres();
+	}
+		
+//		try {
+//			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+//			Document doc = dBuilder.parse(new File("Ejerc_17.xml"));			
+//			Element raiz = doc.getDocumentElement();
+//			//System.out.println(raiz);
+//			System.out.println("Contingut del node arrel (XML) "+raiz.getNodeName()+": ");
+//			NodeList llistaNodes = doc.getElementsByTagName("canco");			
+//			for (int i = 0; i<llistaNodes.getLength(); i++) {
+//				Node node = llistaNodes.item(i);				
+//				if(node.getNodeType() == Node.ELEMENT_NODE) { //La condició verifica que 
+//					//el objeto asignado a node es un node. Evita problemas amb xml mal estructurats.
+//					Element eElement = (Element)node;
+//					String id = eElement.getAttribute("id");
+//					String titol = eElement.getElementsByTagName("titol").item(0).getTextContent();
+//					String artista = eElement.getElementsByTagName("artista").item(0).getTextContent();
+//					String any = eElement.getElementsByTagName("any").item(0).getTextContent();
+//					String format = eElement.getElementsByTagName("format").item(0).getTextContent();					
+//					coleccioLlibres.add(new Llibre(id, titol, artista, any, format));
+//					idLlibre = Integer.parseInt(id);
+//				}				
+//			}			
+//		} catch (ParserConfigurationException | SAXException | IOException e) {
+//				// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+
+	
+	
+//	private static ArrayList<Canco> anyadirCanco(Scanner pEntradaTeclat, ArrayList<Canco> pLlistaCancons, int pIdCanco) {
+//		System.out.println("Introdueix les dades de la cançó:");
+//		System.out.print("titol: ");
+//		String titol = pEntradaTeclat.nextLine();
+//		System.out.print("artista: ");
+//		String artista = pEntradaTeclat.nextLine();
+//		System.out.print("any: ");
+//		String any = pEntradaTeclat.nextLine();
+//		System.out.print("format: ");
+//		String format = pEntradaTeclat.nextLine();			
+//		
+//		//String id = ((Integer)(pLlistaCancons.size()+1)).toString();
+//		String id = ((Integer)pIdCanco).toString();
+//		
+//		pLlistaCancons.add(new Canco(id, titol, artista, any, format));
+//		
+//		return pLlistaCancons;
+//	}
+
+//	private static void guardarEnArchiuXML(ArrayList<Canco> pLlistaCancons) {
+//		
+//			
+//		//Creamos la estructura del documento (DOM) en memoria.
+//		try {
+//			DocumentBuilderFactory docBF = DocumentBuilderFactory.newInstance();
+//			DocumentBuilder docB = docBF.newDocumentBuilder();
+//			Document doc = docB.newDocument();
+//			
+//			Element raiz = doc.createElement("cancons");
+//			doc.appendChild(raiz);
+//			
+//			for (Canco can : pLlistaCancons) {
+//				Element canco = doc.createElement("canco");				
+//				String id = String.valueOf(can.getId());
+//				canco.setAttribute("id", id);
+//				raiz.appendChild(canco);
+//				
+//				Element titol = doc.createElement("titol");
+//				titol.appendChild(doc.createTextNode(String.valueOf(can.getTitol())));
+//				canco.appendChild(titol);
+//				
+//				Element artista = doc.createElement("artista");
+//				artista.appendChild(doc.createTextNode(String.valueOf(can.getAutor())));
+//				canco.appendChild(artista);
+//				
+//				Element any = doc.createElement("any");
+//				any.appendChild(doc.createTextNode(String.valueOf(can.getAnyPublicacio())));
+//				canco.appendChild(any);
+//				
+//				Element format = doc.createElement("format");
+//				format.appendChild(doc.createTextNode(String.valueOf(can.getEditorial())));
+//				canco.appendChild(format);
+//			}
+//			
+//			//Crear serializador			
+//			TransformerFactory tranFactory = TransformerFactory.newInstance();
+//			Transformer aTransformer = tranFactory.newTransformer();
+//			
+//			//Darle foramto al documento
+//			aTransformer.setOutputProperty(OutputKeys.ENCODING, "ISO-8859-1");
+//			aTransformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+//			aTransformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//			
+//			DOMSource source = new DOMSource(doc);
+//			
+//			//Definir el nombre del fichero y guardar
+//			
+//			FileWriter fw;
+//			try {
+//				fw = new FileWriter("canciones2.xml");
+//				StreamResult result = new StreamResult(fw);
+//				aTransformer.transform(source, result);
+//				fw.close();
+//			} catch (IOException | TransformerException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//
+//		} catch (ParserConfigurationException | TransformerConfigurationException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//				
+//	}	
+		
+}

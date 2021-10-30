@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Pereïra</titol>
+        <autor>Tomás</autor>
+        <anyPublicacio>4235</anyPublicacio>
+        <editorial>PlaneÇa</editorial>
+        <nombrePagines>3421</nombrePagines>
+    </llibre>
+</llibres>

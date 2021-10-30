@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Rojo</titol>
+        <autor>Mario Camus</autor>
+        <anyPublicacio>1968</anyPublicacio>
+        <editorial>Paraninfo</editorial>
+        <nombrePagines>335</nombrePagines>
+    </llibre>
+</llibres>

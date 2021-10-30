@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Pereíra</titol>
+        <autor>Guimaraçe</autor>
+        <anyPublicacio>üfasf</anyPublicacio>
+        <editorial>4523</editorial>
+        <nombrePagines>543</nombrePagines>
+    </llibre>
+</llibres>

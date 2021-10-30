@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<llibres>
+    <llibre identificador="1">
+        <titol>Cloacas</titol>
+        <autor>Palermo Mora</autor>
+        <anyPublicacio>1979</anyPublicacio>
+        <editorial>Planeta</editorial>
+        <nombrePagines>345</nombrePagines>
+    </llibre>
+    <llibre identificador="3">
+        <titol>Planeta</titol>
+        <autor>Teo Leo</autor>
+        <anyPublicacio>2004</anyPublicacio>
+        <editorial>Paraninfo</editorial>
+        <nombrePagines>123</nombrePagines>
+    </llibre>
+    <llibre identificador="4">
+        <titol>torta</titol>
+        <autor>gallo</autor>
+        <anyPublicacio>7890</anyPublicacio>
+        <editorial>gui</editorial>
+        <nombrePagines>432</nombrePagines>
+    </llibre>
+    <llibre identificador="5">
+        <titol>Rosas</titol>
+        <autor>GREAfa</autor>
+        <anyPublicacio>f455r</anyPublicacio>
+        <editorial>54</editorial>
+        <nombrePagines>45354321</nombrePagines>
+    </llibre>
+</llibres>
