@@ -19,13 +19,19 @@ public class Modelo {
 	//atributs
 	//constructors
 	//getters y setters
+	
 	//altres mètodes de interface
+	/**Mètode: main
+	 * Descripció: mostra el menú de l'aplicació, i invoca al mètode de l'opció triada.
+	 * Paràmetres d'entrada: no utilitzats
+	 * Paràmetres d'eixida:	 no */
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Scanner entradaTeclat = new Scanner(System.in);
 		Boolean continuar = true;
 		do {
-			System.out.print("\n  Aplicació SGBD Biblioteca  "
+			System.out.print("\n\nalumne: Enrique Izquierdo Jiménez, 1ºDAM presencial\n"
+					+ "\n  Aplicació SGBD Biblioteca  "
 					+ "\n============================="
 					+ "\n1.Migrar dades archiu CSV a bd (MySQL) Biblioteca"
 					+ "\n2.Mostrar llibres d'autors nascuts abans 1950"
@@ -96,6 +102,12 @@ public class Modelo {
 	}
 	
 	//mètodes de implementació
+	/**Mètode: migrarDades_DesdeCSV
+	 * Descripció: llig el contingut de l'arxiu CSV i l'insereix en la base de dades, 
+	 * 				indicant N.C. en els camps buits de tipus VARCHAR i 0 en els de tipus INT.
+	 * 				I mostra per pantalla si la inserció ha sigut correctament realitzada.
+	 * Paràmetres d'entrada: objecte File (punter) al qual se li ha assignat l'arxiu CSV.
+	 * Paràmetres d'eixida:	no  */
 	private static void migrarDades_DesdeCSV(File pArchiuCSV) {		
 		try {
 			FileReader fr = new FileReader(pArchiuCSV);
@@ -119,12 +131,6 @@ public class Modelo {
 //						}
 //					}				
 					
-//					for (int i=0;i<valors.length;i++) {						
-//						if(valors[i].isEmpty()) {
-//							System.out.println("contenido elemento: "+valors[i]);
-//							valors[i]="N.C.";
-//						}
-//					}
 					
 					for (int i=0;i<valors.length;i++) {						
 						if(valors[i].isEmpty()) {
@@ -177,6 +183,12 @@ public class Modelo {
 		}
 	}
 
+
+	/**Mètode: llibres_AutorsAbans1950
+	 * Descripció: mostra per consola els registres de la base de dades corresponents 
+	 * 				als autors nascuts abans de 1950.
+	 * Paràmetres d'entrada: no
+	 * Paràmetres d'eixida:	no  */
 	private static void llibres_AutorsAbans1950() {
 		try {
 			//Carreguem el Driver per a accedir a bd MySQL
@@ -208,6 +220,12 @@ public class Modelo {
 		}				
 	}
 	
+	
+	/**Mètode: editorials_PublicacionsXXI
+	 * Descripció: mostra per consola els registres de la base de dades corresponents 
+	 * 				a les editorials que han publicat durant el segle XXI.
+	 * Paràmetres d'entrada: no 
+	 * Paràmetres d'eixida:	no  */
 	private static void editorials_PublicacionsXXI() {
 		try {
 			//Carreguem el Driver per a accedir a bd MySQL
@@ -240,6 +258,10 @@ public class Modelo {
 	}
 	
 	
+	/**Mètode: menuConsultes
+	 * Descripció: mostra el menú de l'opció 4 (Efectuar consulta lliure), i invoca al mètode de l'opció triada.
+	 * Paràmetres d'entrada: pEntradaTecalat (Scanner, conexió al teclat)
+	 * Paràmetres d'eixida:	no */
 	private static void menuConsultes(Scanner pEntradaTeclat) {
 		int numCamp, numId;
 		String valorCamp;
@@ -317,6 +339,12 @@ public class Modelo {
 		}		
 	}
 	
+	
+	/**Mètode: cercaLliure
+	 * Descripció: mostra per consola els registres de la base de dades que satisfan la cerca realitzada.
+	 * Paràmetres d'entrada: pNumCamp (int, número de la columna a la qual està assignada el camp),
+	 * 						 pValorCamp (String, valor del camp)
+	 * Paràmetres d'eixida:	no  */
 	private static void cercaLliure(int pNumCamp, String pValorCamp) {
 		String[] camps = {"ID","Titol","Autor","Any_Naixement","Any_Publicacio","Editorial","Pagines"};
 		String[] operadors= {"=","Like","Like","=","=","Like","="};
@@ -351,6 +379,14 @@ public class Modelo {
 	}
 	
 	
+	/**Mètode: actualitzarLliure
+	 * Descripció: Actualitza amb el valor passat per paràmetre, el camp passat per paràmetre 
+	 * 				del registre indicat, mitjançant el pas per paràmetre de la ID. 
+	 * 				I mostra per pantalla si l'actualització ha sigut correctament realitzada.
+	 * Paràmetres d'entrada: pNumId (int, número ID del registre en la base de dades),
+	 * 						 pNumCamp (int, número de la columna a la qual està assignada el camp),
+	 * 						 pValorCamp (String, valor del camp)
+	 * Paràmetres d'eixida:	no  */
 	private static void actualitzarLliure(int pNumId, int pNumCamp, String pValorCamp) {
 		String[] camps = {"ID","Titol","Autor","Any_Naixement","Any_Publicacio","Editorial","Pagines"};		
 		try {
@@ -377,6 +413,12 @@ public class Modelo {
 	}
 		
 	
+	/**Mètode: inserirLliure
+	 * Descripció: Inserida un nou registre amb els valors passats per paràmetre. I mostra per 
+	 *  				pantalla si la inserció del registre ha sigut correctament realitzada.
+	 * Paràmetres d'entrada: pValorsCamps (String[], que conté els 7 valors del registre a inserir:
+	 * 						 ID, Titol, Autor, Any_Naixement, Any_Publicacio, Editorial y Pagines).
+	 * Paràmetres d'eixida:	no  */
 	private static void inserirLliure(String[] pValorsCamps) {
 		try {
 			//Carreguem el Driver per a accedir a bd MySQL
@@ -413,6 +455,13 @@ public class Modelo {
 	}
 	
 	
+	/**Mètode: esborrarLliure
+	 * Descripció: Esborrar els registres de la base de dades que satisfan la cerca del camp 
+	 * 				i el contingut (valor) passats per paràmetre. I mostra per pantalla 
+	 * 				si s'han esborrat els registres coincidents.
+	 * Paràmetres d'entrada: pNumCamp (int, número de la columna a la qual està assignada el camp),
+	 * 						 pValorCamp (String, valor del camp)
+	 * Paràmetres d'eixida:	no  */
 	private static void esborrarLliure(int pNumCamp, String pValorCamp) {
 		String[] camps = {"ID","Titol","Autor","Any_Naixement","Any_Publicacio","Editorial","Pagines"};
 		String[] operadors= {"=","Like","Like","=","=","Like","="};
