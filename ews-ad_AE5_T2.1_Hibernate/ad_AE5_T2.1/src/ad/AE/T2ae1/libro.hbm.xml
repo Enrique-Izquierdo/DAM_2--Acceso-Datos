@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<hibernate-mapping package="es.AE.T2ae1">
+<hibernate-mapping package="ad.AE.T2ae1">
 	<class name="Libro" table="llibres">
 		<id name="id" column="ID">
 			<generator class="increment" />
 		</id>
-		<property name="titulo" type="string" column="titol" />
+		<property name="titulo" type="string" column="Titol" />
 		<property name="autor" type="string" column="Autor" />
 		<property name="anyoNacimiento" type="int" column="Any_Naixement" />
 		<property name="anyoPublicacion" type="int" column="Any_Publicacio" />

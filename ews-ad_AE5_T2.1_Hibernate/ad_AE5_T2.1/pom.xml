@@ -6,9 +6,9 @@
 	<artifactId>ad_AE5_T2.1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
   
-	<!--<properties>
+	<!-- <properties>
 		<maven.compiler.release>16</maven.compiler.release>
-	</properties>-->
+	</properties> -->
   
   	<build>
     	<sourceDirectory>src</sourceDirectory>
