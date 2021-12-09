@@ -14,10 +14,15 @@ import org.hibernate.service.ServiceRegistry;
 
 
 public class Principal {
-	//atributs
-	//constructors
-	//mètodes de interface
-
+	//ATRIBUTS
+	//CONSTRUCTORS
+	
+	//MÈTODES DE INTERFACE
+	/**Mètode: main
+	 * Descripció: Carrega la configuració d'hibernate; crea els objectes sessiónFactory y sessión;
+	 * 				invoca al mètode menu; realizta el commit y tanca la sessió.
+	 * Paràmetres d'entrada: no utilitzats
+	 * Paràmetres d'eixida:	 no */
 	public static void main(String[] args) {
 		//Carregam configuració i cream objecte sessionFactory
 		Configuration configuration = new Configuration().configure("hibernate.cfg.xml"); //Creem nova configuració per a la conexió amb la bd relacional.
@@ -28,19 +33,28 @@ public class Principal {
 		
 		//Obrim nova sessió del objecte sessionFactory per a poder iniciar la transacció i fer persistents les operacions CRUD.
 		Session session = sessionFactory.openSession();
-		session.beginTransaction();
+//		session.beginTransaction();
 		
 		//Operacions CRUD sobre la bd relacional
 		Principal principal = new Principal();
 		principal.menu(session);
 		
-		//Fem presistent la transacció (registrar en la bd relacional), i tanquem session per que no es puga desfer el registre de la transacció.
-		session.getTransaction().commit();
+//		//Fem presistent la transacció (registrar en la bd relacional), i tanquem session per que no es puga desfer el registre de la transacció.
+//		try {
+//			session.getTransaction().commit();
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			System.out.println("\nNo existeix cap registre amb l'id indicada.");
+//		}
 		session.close();
 	}
-
-	//mètodes d'implementació
 	
+	//MÈTODES D'IMPLEMENTACIÓ
+	/**Mètode: menu
+	 * Descripció: mostra el menú de l'aplicació i invoca al mètode de l'opció triada, fins es
+	 * 				selecciona l'opció eixir.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main)
+	 * Paràmetres d'eixida:	no */
 	private void menu(Session pSession) {		
 		Scanner entradaTeclat = new Scanner(System.in);		
 		Boolean continuar = true;
@@ -99,7 +113,10 @@ public class Principal {
 		entradaTeclat.close();
 	}
 	
-	
+	/**Mètode: mostrarTitolsRegistrats
+	 * Descripció: mostra per consola els valors dels camps id i titol dels registres de la base de dades.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main)
+	 * Paràmetres d'eixida:	no  */
 	private void mostrarTitolsRegistrats(Session pSession) {		
 		//Recuperar llista d'objectes (registres)
 		List llistaLlibres = new ArrayList();
@@ -110,20 +127,39 @@ public class Principal {
 		}
 	}
 	
+	/**Mètode: mostrarRegistre
+	 * Descripció: mostra per consola tots els camps del registre de la base de dades buscat per l'id.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main),
+	 * 						 pEntradaTeclat (Scanner, conexió al teclat)
+	 * Paràmetres d'eixida:	no  */
 	private void mostrarRegistre(Session pSession, Scanner pEntradaTeclat) {
+		//Iniciem la transacció de la sessió
+		pSession.beginTransaction();
 		System.out.print("\nIntroduïsca l'id del registre que vulga recuperar i mostrar per pantalla: ");
 		int id = Integer.parseInt(pEntradaTeclat.nextLine());
-		//Recuperar un objecte (registre en la bd) a partir del seu id
 		try {
+			//Recuperar un objecte (registre en la bd) a partir del seu id
 			Libro libro = (Libro) pSession.get(Libro.class, id);
 			System.out.println(libro.toString());
+			//Fem presistent la transacció (registrar en la bd relacional)
+			pSession.getTransaction().commit();
+			//Eliminen les dades del objecte a la sessió
+			pSession.clear(); 
 		} catch (Exception e) {
 			// TODO: handle exception
 			System.out.println("\nNo existeix cap registre amb l'id indicada.");
 		}
 	}
 	
+	/**Mètode: crearRegistre
+	 * Descripció: sol·licita els valors dels atributs de l'objecte que posteriorment registra en la base de dades.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main),
+	 * 						 pEntradaTeclat (Scanner, conexió al teclat)
+	 * Paràmetres d'eixida:	no  */
 	private void crearRegistre(Session pSession, Scanner pEntradaTeclat) {
+		//Iniciem la transacció de la sessió
+		pSession.beginTransaction();
+		//Demanem els dades
 		System.out.print("\nIntroduïsca el titol del llibre: ");
 		String titulo = pEntradaTeclat.nextLine();
 		System.out.print("Introduïsca el nom de l'autor: ");
@@ -140,12 +176,25 @@ public class Principal {
 		Libro libro = new Libro(titulo, autor, anyoNacimiento, anyoPublicacion, editorial, paginas);
 		Serializable id = pSession.save(libro);
 		System.out.println("\nId del nou registre: "+id);
+		//Fem presistent la transacció (registrar en la bd relacional)
+		pSession.getTransaction().commit();
+		//Eliminen les dades del objecte a la sessió
+		pSession.clear(); 
 	}
 	
+	/**Mètode: cercaLliure
+	 * Descripció: sol·licita els valors dels atributs de l'objecte que posteriorment actualitza en el 
+	 * 				registre de la base de dades corresponent amb l'id indicat.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main),
+	 * 						 pEntradaTeclat (Scanner, conexió al teclat)
+	 * Paràmetres d'eixida:	no  */
 	private void actualitzarRegistre(Session pSession, Scanner pEntradaTeclat) {
+		//Iniciem la transacció de la sessió
+		pSession.beginTransaction();
+		//Demanem els dades
 		System.out.print("\nIntroduïsca l'id del registre que vulga actualitzar: ");
 		int id = Integer.parseInt(pEntradaTeclat.nextLine());
-		System.out.print("Introduïsca el titol de la cançó: ");
+		System.out.print("Introduïsca el titol del llibre: ");
 		String titulo = pEntradaTeclat.nextLine();
 		System.out.print("Introduïsca el nom de l'autor: ");
 		String autor = pEntradaTeclat.nextLine();
@@ -157,23 +206,50 @@ public class Principal {
 		String editorial = pEntradaTeclat.nextLine();
 		System.out.print("Introduïsca el nombre de pàgines: ");
 		int paginas = Integer.parseInt(pEntradaTeclat.nextLine());
-		// Actualitzar la informació d'un objecte (registre en la bd) donat el seu id
-		Libro libro = (Libro) pSession.load(Libro.class, id);
-		libro.setTitulo(titulo);
-		libro.setAutor(autor);
-		libro.setAnyoNacimiento(anyoNacimiento);
-		libro.setAnyoPublicacion(anyoPublicacion);
-		libro.setEditorial(editorial);
-		libro.setPaginas(paginas);
-		pSession.update(libro);
+		
+		try {
+			// Actualitzar la informació d'un objecte (registre en la bd) donat el seu id
+			Libro libro = (Libro) pSession.load(Libro.class, id);
+			libro.setTitulo(titulo);
+			libro.setAutor(autor);
+			libro.setAnyoNacimiento(anyoNacimiento);
+			libro.setAnyoPublicacion(anyoPublicacion);
+			libro.setEditorial(editorial);
+			libro.setPaginas(paginas);
+			pSession.update(libro);
+			//Fem presistent la transacció (registrar en la bd relacional)
+			pSession.getTransaction().commit();
+			//Eliminen les dades del objecte a la sessió
+			pSession.clear();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("\nNo existeix cap registre amb l'id indicada.");
+		}	
 	}
-	
+		
+	/**Mètode: esborrarRegistre
+	 * Descripció: sol·licita l'id del registre que volem esborrar, i l'esborra de la base de dades.
+	 * Paràmetres d'entrada: pSession (Session, objecte sessió (hibernate) creat en el mètode main),
+	 * 						 pEntradaTeclat (Scanner, conexió al teclat)
+	 * Paràmetres d'eixida:	no  */
 	private void esborrarRegistre(Session pSession, Scanner pEntradaTeclat) {
+		//Iniciem la transacció de la sessió
+		pSession.beginTransaction();
+		//Demanem els dades
 		System.out.print("\nIntroduïsca l'id del registre que vulga borrar: ");
 		int id = Integer.parseInt(pEntradaTeclat.nextLine());
 		//Borrar objecte (registre en la bd)
 		Libro libro = new Libro();
-		libro.setId(id);
-		pSession.delete(libro);
+		try {
+			libro.setId(id);
+			pSession.delete(libro);
+			//Fem presistent la transacció (registrar en la bd relacional)
+			pSession.getTransaction().commit();
+			//Eliminen les dades del objecte a la sessió
+			pSession.clear();
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.out.println("\nNo existeix cap registre amb l'id indicada.");
+		}
 	}
 }
