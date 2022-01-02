@@ -69,25 +69,7 @@ public class Principal {
 				break;
 			case "5":
 				esborrarRegistreIdCoincident(pColeccio, entradaTeclat);
-				break;			
-//			case "02":
-//				llegirTotsCampsTotsRegistres(pColeccio);
-//				break;
-//			case "03":
-//				llegirTotsCampsRegistresCoincidents(pColeccio, entradaTeclat);
-//				break;
-//			case "04":
-//				mostrarCampIndicatTotsRegistres(pColeccio, entradaTeclat);
-//				break;
-//			case "05":
-//				mostrarCampIndicatRegistresCoincidents(pColeccio, entradaTeclat);
-//				break;
-//			case "06":
-//				actualitzarPrimerRegistreCoincident(pColeccio, entradaTeclat);
-//				break;
-//			case "07":
-//				eliminarPrimerRegistreCoincident(pColeccio, entradaTeclat);
-//				break;
+				break;
 			case "0":
 				continuar = false;
 				break;
@@ -97,7 +79,7 @@ public class Principal {
 			}
 			
 			if (continuar) {
-				System.out.println("Pressione qualsevol tecla per a continuar.");
+				System.out.println("\nPressione qualsevol tecla per a continuar.");
 					try {
 						System.in.read();
 						entradaTeclat.nextLine();
@@ -226,76 +208,5 @@ public class Principal {
 		String valorId = pEntradaTeclat.nextLine();
 		pColeccio.deleteOne(Filters.eq("Id", valorId));
 	}
-	
-
-	
-//	//ejercicis	
-//	private static void llegirTotsCampsTotsRegistres(MongoCollection<Document> pColeccio) {
-//		MongoCursor<Document> cursor = pColeccio.find().iterator();
-//		while (cursor.hasNext()) {
-//			System.out.println(cursor.next().toJson());
-//		}
-//	}
-//			
-//	private static void llegirTotsCampsRegistresCoincidents(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
-//		System.out.print("Introduïsca el nom y el valor del camp que identifica els registre a mostrar.\n"
-//				+ "\tNom del camp: ");
-//		String campo1 = pEntradaTeclat.nextLine();
-//		System.out.print("\tValor del camp: ");
-//		String valor1 = pEntradaTeclat.nextLine();
-//		Bson query = Filters.eq(campo1, valor1);
-//		MongoCursor<Document> cursor = pColeccio.find(query).iterator();
-//		while (cursor.hasNext()) {
-//			System.out.println(cursor.next().toJson());
-//		}
-//	}
-//	
-//	private static void mostrarCampIndicatTotsRegistres(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
-//		System.out.print("Introduïsca el camp a mostrar de tots els registres: ");
-//		String campo1 = pEntradaTeclat.nextLine();
-//		MongoCursor<Document> cursor = pColeccio.find().iterator();
-//		while (cursor.hasNext()) {
-//			JSONObject obj = new JSONObject(cursor.next().toJson());
-//			System.out.println(obj.getString(campo1));
-//		}
-//	}
-//	
-//	private static void mostrarCampIndicatRegistresCoincidents(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
-//		System.out.print("Introduïsca el nom y el valor del camp que identifica els registre a mostrar.\n"
-//				+ "\tNom del camp: ");
-//		String campo1 = pEntradaTeclat.nextLine();
-//		System.out.print("\tValor del camp: ");
-//		String valor1 = pEntradaTeclat.nextLine();
-//		System.out.print("Introduïsca el camp a mostrar de tots els registres: ");
-//		String campo2 = pEntradaTeclat.nextLine();
-//		Bson query = Filters.eq(campo1, valor1);
-//		MongoCursor<Document> cursor = pColeccio.find(query).iterator();
-//		while (cursor.hasNext()) {
-//			JSONObject obj = new JSONObject(cursor.next().toJson());
-//			System.out.println(obj.getString(campo2));
-//		}
-//	}
-//	
-//	private static void actualitzarPrimerRegistreCoincident(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
-//		System.out.print("Introduïsca el nom y el valor del camp que identifica el primer registre a actualitzar de la taula.\n"
-//				+ "\tNom del camp: ");
-//		String campo1 = pEntradaTeclat.nextLine();
-//		System.out.print("\tValor del camp: ");
-//		String valor1 = pEntradaTeclat.nextLine();
-//		System.out.print("Introduïsca el nou valor del camp \""+ campo1+"\" a actualitzar en el primer registre coincident de la taula\n"
-//				+ "\tNou valor del camp \""+campo1+"\": ");
-//		String valor2 = pEntradaTeclat.nextLine();
-//		
-//		pColeccio.updateOne(Filters.eq(campo1, valor1), new Document("$set", new Document(campo1, valor2)));
-//	}
-//	
-//	private static void eliminarPrimerRegistreCoincident(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
-//		System.out.print("Introduïsca el nom y el valor del camp que identifica el primer registre a esborrar de la taula.\n"
-//				+ "\tNom del camp: ");
-//		String campo1 = pEntradaTeclat.nextLine();
-//		System.out.print("\tValor del camp: ");
-//		String valor1 = pEntradaTeclat.nextLine();
-//		pColeccio.deleteOne(Filters.eq(campo1, valor1));
-//	}
 	
 }
