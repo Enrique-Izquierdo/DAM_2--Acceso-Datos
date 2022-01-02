@@ -97,10 +97,18 @@ public class Principal {
 	//mètodes d'implementació
 	private static void mostrarCampsIndicats_RegistresTots(MongoCollection<Document> pColeccio) {
 		MongoCursor<Document> cursor = pColeccio.find().iterator();
-		System.out.println(" ID  "+" Titol "+" _id_alfanumèric");
+		System.out.printf("\n%-5s %-32s %-32s\n", " ID", "Tìtol", "id alfaNumeric");
 		while (cursor.hasNext()) {
 			JSONObject obj = new JSONObject(cursor.next().toJson());
-			System.out.println(obj.getString("Id")+" "+obj.getString("Titol")+" "+obj.get("_id"));
+			String id = "", titol = "";
+			Object idAlfaNumeric = "";
+			
+			try {	id = obj.getString("Id");	} catch (JSONException e) {	}
+			try {	titol = obj.getString("Titol");	} catch (JSONException e) {	}
+			try {	idAlfaNumeric = obj.get("_id");	} catch (JSONException e) {	}
+			
+			System.out.printf("%-5s %-32s %-32s\n", " "+id, titol, idAlfaNumeric);			
+//			System.out.println(obj.getString("Id")+" "+obj.getString("Titol")+" "+obj.get("_id"));
 		}
 	}
 	
@@ -112,12 +120,12 @@ public class Principal {
 //		while (cursor.hasNext()) {
 //			System.out.println(cursor.next().toJson());
 //		}		
-		System.out.println(" ID  "+" Titol "+" Autor "+" Any_naixement "+" Any_publicacio "+" Editorial "
-				+" Nombre_pagines "+" _id_alfanumèric ");
+		System.out.printf("\n%-5s %-32s %-20s %-15s %-17s %-13s %-10s %-32s\n",
+				" ID","Tìtol","Autor","Any Naixement","Any Publicació","Editorial","Pàgines", "id alfaNumeric");
 		while (cursor.hasNext()) {
 			JSONObject obj = new JSONObject(cursor.next().toJson());
-			String id="", titol="", autor ="", anyNaixement="", anyPublicacio="", 
-					editorial="", nombrePagines="", idAlfaNumeric = "";
+			String id="", titol="", autor ="", anyNaixement="", anyPublicacio="", editorial="", nombrePagines="";
+			Object idAlfaNumeric = "";
 			
 			try {	id = obj.getString("Id");	} catch (JSONException e) {	}
 			try {	titol = obj.getString("Titol");	} catch (JSONException e) {	}
@@ -126,14 +134,14 @@ public class Principal {
 			try {	anyPublicacio = obj.getString("Any_publicacio");	} catch (JSONException e) {	}
 			try {	editorial = obj.getString("Editorial");	} catch (JSONException e) {	}
 			try {	nombrePagines = obj.getString("Nombre_pagines");	} catch (JSONException e) {	}
-			try {	idAlfaNumeric = obj.getString("_id");	} catch (JSONException e) {	}
+			try {	idAlfaNumeric = obj.get("_id");	} catch (JSONException e) {	}
 			
-			System.out.println(id+" "+titol+" "+autor+" "+anyNaixement+" "+anyPublicacio+" "
-					+editorial+" "+nombrePagines+" "+idAlfaNumeric);
+			System.out.printf("%-5s %-32s %-20s %-15s %-17s %-13s %-10s %-32s\n",
+					" "+id, titol, autor, anyNaixement, anyPublicacio, editorial, nombrePagines, idAlfaNumeric);
 			
 //			System.out.println(obj.getString("Id")+" "+obj.getString("Titol")+" "+obj.getString("Autor")+" "
 //					+obj.getString("Any_naixement")+" "+obj.getString("Any_publicacio")+" "+obj.getString("Editorial")+" "
-//					+" "+obj.getString("Nombre_pagines")+" "+obj.getString("_id"));
+//					+" "+obj.getString("Nombre_pagines")+" "+obj.get("_id"));
 		}
 	}
 	
