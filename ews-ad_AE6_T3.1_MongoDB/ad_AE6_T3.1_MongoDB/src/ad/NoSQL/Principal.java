@@ -15,10 +15,15 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
 public class Principal {
-	//atributs
-	//constructors
-	//getters y setters
-	//altres mètodes de interface
+	//ATRIBUTS
+	//CONSTRUCTORS
+	//GETTERS I SETTERS
+	//ALTRES MÈTODES DE INTERFACE
+	
+	/**Mètode: main
+	 * Descripció: connectar app amb la basa de dades i invocar el mètode menú.
+	 * Paràmetres d'entrada: no utilitzats
+	 * Paràmetres d'eixida:	 no */	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub		
 		MongoClient mongoClient = new MongoClient("localhost", 27017);
@@ -27,8 +32,12 @@ public class Principal {
 		mostrarMenu(coleccio);
 		mongoClient.close();
 	}
-
 	
+	
+	/**Mètode: mostrarMenu
+	 * Descripció: mostrar el menú de l'aplicació, i invocar al mètode de l'opció triada amb el teclat.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>)
+	 * Paràmetres d'eixida:	 no */
 	public static void mostrarMenu(MongoCollection<Document> pColeccio) {
 		Scanner entradaTeclat = new Scanner(System.in);		
 		Boolean continuar = true;
@@ -45,18 +54,12 @@ public class Principal {
 					+ "3 - Afegir un nou llibre a la biblioteca.\n"
 					+ "4 - Modificar atributs d'un llibre a partir del seu ID.\n"
 					+ "5 - Esborrar un llibre a partir del seu ID.\n"
-//					+ "02 - LLegir (i mostrar) tots els camps dels registres.\n"
-//					+ "03 - LLegir (i mostrar) tots els camps dels registres coincidents amb el camp y valor indicat.\n"
-//					+ "04 - Mostrar el camp indicat de tots els registres.\n"
-//					+ "05 - Mostrar el camp indicat de tots els registres coincidents amb el camp y valor indicat\n"
-//					+ "06 - Actualitzar el camp del primer registre coincident amb el valor indicat.\n"
-//					+ "07 - Eliminar el primer registre coincident amb el valor del camp indicat\n"
 					+ "0 - Eixir\n"
 					+ "Seleccione l'acció a realitzar: ");
 			
 			switch (entradaTeclat.nextLine()) {
 			case "1":
-				mostrarCampsIndicats_RegistresTots(pColeccio);
+				mostrarCampsIdTitol_RegistresTots(pColeccio);
 				break;
 			case "2":
 				mostrarCampsTots_RegistreIdCoincident(pColeccio, entradaTeclat);
@@ -94,8 +97,14 @@ public class Principal {
 		entradaTeclat.close();
 	}
 	
-	//mètodes d'implementació
-	private static void mostrarCampsIndicats_RegistresTots(MongoCollection<Document> pColeccio) {
+	
+	//MÈTODES D' IMPLEMENTACIÓ
+	
+	/**Mètode: mostrarCampsIndicats_RegistresTots
+	 * Descripció: mostra els camps ID, Tìtol e id alfaNumeric de tots els registres.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>)
+	 * Paràmetres d'eixida:	 no */
+	private static void mostrarCampsIdTitol_RegistresTots(MongoCollection<Document> pColeccio) {
 		MongoCursor<Document> cursor = pColeccio.find().iterator();
 		System.out.printf("\n%-5s %-32s %-32s\n", " ID", "Tìtol", "id alfaNumeric");
 		while (cursor.hasNext()) {
@@ -111,7 +120,11 @@ public class Principal {
 //			System.out.println(obj.getString("Id")+" "+obj.getString("Titol")+" "+obj.get("_id"));
 		}
 	}
-	
+		
+	/**Mètode: mostrarCampsTots_RegistreIdCoincident
+	 * Descripció: mostra tots els camps del registre indicat amb el teclat.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>), pEntradaTeclat (Scanner)
+	 * Paràmetres d'eixida:	 no */
 	private static void mostrarCampsTots_RegistreIdCoincident(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
 		System.out.print("Introduïsca el valor de l'ID: ");
 		String valorId = pEntradaTeclat.nextLine();
@@ -138,13 +151,17 @@ public class Principal {
 			
 			System.out.printf("%-5s %-32s %-20s %-15s %-17s %-13s %-10s %-32s\n",
 					" "+id, titol, autor, anyNaixement, anyPublicacio, editorial, nombrePagines, idAlfaNumeric);
-			
 //			System.out.println(obj.getString("Id")+" "+obj.getString("Titol")+" "+obj.getString("Autor")+" "
 //					+obj.getString("Any_naixement")+" "+obj.getString("Any_publicacio")+" "+obj.getString("Editorial")+" "
 //					+" "+obj.getString("Nombre_pagines")+" "+obj.get("_id"));
 		}
 	}
 	
+	
+	/**Mètode: crearRegistre
+	 * Descripció: crea un nou registre amb les dades introduïts amb el teclat, assignant-li un ID autoincrementatiu.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>), pEntradaTeclat (Scanner)
+	 * Paràmetres d'eixida:	 no */
 	private static void crearRegistre(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
 		System.out.print("Introduïsca les dades del llibre.\n"
 				+ "Titol: ");
@@ -173,7 +190,12 @@ public class Principal {
 		doc.append("Nombre_pagines", nombre_pagines);
 		pColeccio.insertOne(doc);		
 	}
-		
+	
+	
+	/**Mètode: cercarMajorId
+	 * Descripció: retorna el major ID.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>)
+	 * Paràmetres d'eixida:	 int */
 	private static int cercarMajorId(MongoCollection<Document> pColeccio) {
 		int mayorId = 0;
 		MongoCursor<Document> cursor = pColeccio.find().iterator();
@@ -187,6 +209,11 @@ public class Principal {
 		return mayorId;
 	}
 		
+	
+	/**Mètode: actualitzarRegistreIdCoincident
+	 * Descripció: actualitza el registre amb el ID indicat per teclat, amb les dades introduïts amb el teclat.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>), pEntradaTeclat (Scanner)
+	 * Paràmetres d'eixida:	 no */
 	private static void actualitzarRegistreIdCoincident(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
 		System.out.print("Introduïsca l'ID del llibre a actualitzar: ");
 		String valorId = pEntradaTeclat.nextLine();
@@ -211,6 +238,11 @@ public class Principal {
 		pColeccio.updateOne(Filters.eq("Id", valorId), new Document("$set", new Document("Nombre_pagines", nombre_pagines)));
 	}
 	
+	
+	/**Mètode: esborrarRegistreIdCoincident
+	 * Descripció: esborrar el registre amb el ID indicat per teclat, de la base de dades.
+	 * Paràmetres d'entrada: pColeccio (MongoCollection<Document>), pEntradaTeclat (Scanner)
+	 * Paràmetres d'eixida:	 no */
 	private static void esborrarRegistreIdCoincident(MongoCollection<Document> pColeccio, Scanner pEntradaTeclat) {
 		System.out.print("Introduïsca l'ID del llibre a esborrar: ");
 		String valorId = pEntradaTeclat.nextLine();
