@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" cvntent="ie=edge" />
+        <title>Paises del Mundo</title>        
+
+        <!-- Realitzem la cerca d'un país pel seu nom comú, mitjançant la consulta multi-idioma
+             de la rest api https://restcountries.com/v3.1/lang/{lang} i, extraiem els valors
+             dels atributs de l'únic objecte (posició 0) que conté el array obtingut (descarregat) -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script type = "text/javascript">
+            function getPaisInfo() {
+                var strBusquedaPais = document.getElementById('strBusquedaPais').value; 
+                    axios
+                    .get("https://restcountries.com/v3.1/translation/"+strBusquedaPais) 
+                    .then(response => {
+                        console. log(response.data);
+                        document.getElementById('strNomOficial').value = response.data[0].translations.spa.official;
+                        document.getElementById('strCapital').value = response.data[0].capital;
+                        document.getElementById('strPoblacio').value = response.data[0].population;
+                        document.getElementById('strRegio').value = response.data[0].region;
+                        document.getElementById('strSubregio').value = response.data[0].subregion;
+                        document.getElementById('strSuperficie').value = response.data[0].area;
+                        document.getElementById('imagenBandera').src = response.data[0].flags.png;
+                        document.getElementById('imagenBandera').style.display ="block";
+                    })
+                    .catch(error => {
+                    console.error(error);
+                        document.getElementById('strNomOficial').value = "ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('strCapital').value = "ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('strPoblacio').value = "ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('strRegio').value = "ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('strSubregio').value = "ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('strSuperficie').value ="ERROR EN LA CONSULTA: "+error;
+                        document.getElementById('imagenBandera').style.display = "none";
+                    });
+                }
+        </script>
+
+        <!-- Preparem els valors obtinguts de la *API *REST per a guardar-los en la base
+             de dades MySql, mitjançant ajax i l'arxiu paisos.php -->
+        <script src = "https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <script type = "text/javascript">
+            function guardarInfo() {
+                var str_NomComu = document.getElementById('strBusquedaPais').value;
+                var str_NomOficial = document.getElementById('strNomOficial').value;
+                var str_Capital = document.getElementById('strCapital').value;
+                var str_Poblacio = document.getElementById('strPoblacio').value;
+                var str_Regio = document.getElementById('strRegio').value;
+                var str_Subregio = document.getElementById('strSubregio').value;
+                var str_Superficie = document.getElementById('strSuperficie').value;
+                var str_ImagenBandera = document.getElementById('imagenBandera').src;
+                $.ajax({
+                    type: "POST", //metodo POST para enviar dates al servidor
+                    url: "paisesPHP.php", // ruta del fichero PHP del servidor comp URL
+                    data: {nombreComun: str_NomComu, nombreOficial: str_NomOficial, capital: str_Capital, poblacion: str_Poblacio,
+                         region: str_Regio, subregion: str_Subregio, superficie: str_Superficie, imagenBandera: str_ImagenBandera}, // dates a enviar
+                    success: function (response) { //resultado del PHP del servidor
+                        alert(response);
+                    },
+                    error: function () {
+                        alert("Error");
+                    }
+                });
+            }
+        </script>
+        <style>
+            * {
+                box-sizing: border-box;
+            }
+        
+            body {
+                background-image: url('mundo.jpg');
+                background-attachment: fixed;
+                background-size: 100% 100%;     
+                font-family: Arial;
+                margin: 0;
+            }
+        
+            .header {
+                background-color: hsla(0, 0%, 0%, 0.3);
+                padding: 10px;
+                text-align: center;
+                color: white;
+                font-size: x-large;
+            }
+        
+            .searcher {
+                background-color: hsla(0, 0%, 0%, 0.5);
+                padding: 10px;
+                color: white;
+                text-align: center;
+            }
+            
+            .row {  
+                display: flex;
+                flex-wrap: wrap;
+            }
+        
+            .side {
+                flex: 30%;
+                background-color: hsla(0, 0%, 0%, 0.1);
+                padding: 20px;
+                color: White;
+            }
+        
+            .main {
+                
+                flex: 70%;
+                background-color: hsla(0, 0%, 0%, 0.2);
+                padding: 20px;
+                color: White;
+            }
+
+            .main_RA {
+            }
+
+            .main_RB {
+                display: flex;
+            }
+
+            .main_CA {
+                flex: 50%;
+                /* padding: 20px; */
+                color: White;
+            }
+
+            .main_CB {
+                flex: 50%;
+                /* padding: 20px; */
+                color: White;
+            }
+                       
+            textarea {
+                background-color: transparent;
+                color: white;
+                font-size:x-large;
+            }
+
+            /* Responsive layout - when the screen is less than 700px wide, make the two columns stack on top of each other instead of next to each other */
+            @media screen and (max-width: 700px) {
+                .row {   
+                    flex-direction: column;
+                }
+            }
+        </style>
+    </head>
+
+
+    <body>
+        <!-- Note -->
+        <div style="background:yellow; padding:1px">
+            <h4 style="text-align:center">AE7 - Serveis i Recursos Web &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alumne: Enrique Izquierdo Jiménez </h4>
+        </div>
+
+        <!-- Header -->
+        <div class="header">
+            <h1>Països del Món</h1>
+            <p>Api Rest: <b>https://restcountries.com/</b></p>
+        </div>
+
+        <!-- Searcher Bar -->
+        <div class="searcher">
+            <p> Introduïsca el nom d'un país: 
+                <input type="text" value="" id="strBusquedaPais" style="font-size: larger;">
+                <button id="botonBusquedaPais" onclick="getPaisInfo()" style="font-size: larger;">Cercar</button>
+            </p>
+        </div>
+
+        <!-- The flexible grid (content) -->
+        <div class="row">
+            <div class="side">
+                <h2>Bandera</h2>
+                <div>
+                    <img id="imagenBandera" src="" width="100%" style="display:none;"/>
+                </div>
+            </div>
+            <div class="main">
+                <div class="main_RA">
+                    <h2>Dades Rellevants</h2>
+                </div>
+                <div class="main_RB">
+                    <div class="main_CA">
+                        <div>
+                            <p>Nom Oficial:
+                                <textarea id="strNomOficial" rows="1" style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                        <div>
+                            <p>Capital:
+                                <textarea id="strCapital" rows="1"  style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                        <div>
+                            <p>Població:
+                                <textarea id="strPoblacio" rows="1"  style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                    </div>
+                    <div class="main_CB">
+                        <div>
+                            <p>Regió:
+                                <textarea id="strRegio" rows="1"  style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                        <div>
+                            <p>Subregió:
+                                <textarea id="strSubregio" rows="1"  style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                        <div>
+                            <p>Superfície:
+                                <textarea id="strSuperficie" rows="1"  style="width:70%"></textarea>
+                            </p>                    
+                        </div>
+                        <br><br><br><br>
+                        <div>
+                            <button id="botonGuardar" onclick="guardarInfo()" style="font-size: larger;">Guardar</button>
+                        </div>
+                    </div>                    
+                </div>                
+            </div>
+        </div>
+    </body>   
+</html>
